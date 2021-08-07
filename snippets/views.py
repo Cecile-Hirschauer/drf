@@ -14,6 +14,9 @@ class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SnippetSerializer
 
 
+# We also need to add two new read-only views for a list of all users 
+# and a detail view of individual users. Note that we use the generic 
+# class-based RetrieveAPIView for the read-only detail view. 
 class UserList(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -22,4 +25,5 @@ class UserList(generics.ListCreateAPIView):
 class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    
     
