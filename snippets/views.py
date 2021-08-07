@@ -1,8 +1,25 @@
 from rest_framework import generics, permissions
 from django.contrib.auth.models import User
+from rest_framework.decorators import api_view 
+from rest_framework.response import Response 
+from rest_framework.reverse import reverse 
+
+
 from .models import Snippet
 from .permissions import IsOwnerOrReadOnly
 from .serializers import SnippetSerializer, UserSerializer
+
+
+# Currently there are endpoints for snippets and users, 
+# but we don't have a single entry point to our API. To create one, 
+# we'll use a regular function-based view and 
+# Django REST Framework's built-in @api_view decorator.
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'users': reverse('user-list', request=request, format=format),
+        'snippets': reverse('snippet-list', request=request, format=format)
+    })
 
 
 class SnippetList(generics.ListCreateAPIView):
