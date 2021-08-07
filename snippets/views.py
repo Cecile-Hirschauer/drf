@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, permissions
 from django.contrib.auth.models import User
 from .models import Snippet
 from .serializers import SnippetSerializer, UserSerializer
@@ -20,11 +20,14 @@ class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
 class UserList(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     
 
 class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
     
     # Currently there is no way to automatically associate the logged-in user 
     # that created a snippet with the snippet instance. We can set this 
