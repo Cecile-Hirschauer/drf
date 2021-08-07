@@ -26,4 +26,10 @@ class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     
+    # Currently there is no way to automatically associate the logged-in user 
+    # that created a snippet with the snippet instance. We can set this 
+    # automatically by overriding .perform_create() method on our snippet 
+    # views that lets us modify how an instance is saved.
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
     
